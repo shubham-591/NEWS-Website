@@ -7,10 +7,28 @@ function reload() {
     window.location.reload();
 }
 
-async function fetchNews (query){
-    const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
-    const data = await res.json();
-    bindData(data.articles);
+// async function fetchNews (query){
+//     const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+//     const data = await res.json();
+//     bindData(data.articles);
+// }
+
+async function fetchNews(query) {
+    try {
+        const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.articles && data.articles.length > 0) {
+            bindData(data.articles);
+        } else {
+            console.error("No articles found or data is undefined");
+            bindData([]); // Ensure bindData is called with an empty array to clear previous content
+        }
+    } catch (error) {
+        console.error('Error fetching news:', error);
+    }
 }
 
 function bindData(articles) {
@@ -18,6 +36,11 @@ function bindData(articles) {
     const newsCardTemplate = document.getElementById('template-news-card');
 
     cardsContainer.innerHTML = '';
+
+    if (articles.length === 0) {
+        cardsContainer.innerHTML = '<p>No news articles found.</p>';
+        return;
+    }
 
     articles.forEach((article) => {
         if(!article.urlToImage) return;
