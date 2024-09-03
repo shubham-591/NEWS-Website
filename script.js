@@ -1,7 +1,11 @@
+
+const NEW_API_KEY ='08d071dc29dc4272836a93a3032af7ca'   
 const API_KEY = "3d6df72152ec4121add22cdd55bebefb";
 const url = "https://newsapi.org/v2/everything?q=";
 
-window.addEventListener('load', () => fetchNews("India"));
+https://newsapi.org/v2/everything?q=bitcoin&apiKey=08d071dc29dc4272836a93a3032af7ca
+
+window.addEventListener('load', () => fetchNews("india"));
 
 function reload() {
     window.location.reload();
@@ -15,7 +19,9 @@ function reload() {
 
 async function fetchNews(query) {
     try {
-        const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+        const res = await fetch(`${url}${query}&apiKey=${NEW_API_KEY}`);
+        // const res = await fetch(`https://newsapi.org/v2/everything?q=bitcoin&apiKey=08d071dc29dc4272836a93a3032af7ca`);
+        // console.log(url,query,API_KEY)
         if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
         }
